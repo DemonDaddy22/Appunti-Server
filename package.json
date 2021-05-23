@@ -1,0 +1,42 @@
+{
+  "name": "appunti-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run build",
+    "start": "nodemon dist/index.js",
+    "prebuild": "npm run lint:fix",
+    "build": "tsc --project ./",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint --fix . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DemonDaddy22/Appunti-Server.git"
+  },
+  "author": "Rohan Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DemonDaddy22/Appunti-Server/issues"
+  },
+  "homepage": "https://github.com/DemonDaddy22/Appunti-Server#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^15.6.0",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.27.0",
+    "eslint-plugin-import": "^2.23.3",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "type": "module"
+}
