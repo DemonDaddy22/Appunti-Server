@@ -1,23 +1,29 @@
 {
+    "extends": "@tsconfig/node14/tsconfig.json",
     "compilerOptions": {
         "strict": true,
-        "module": "es6",
+        "module": "commonjs",
         "esModuleInterop": true,
         "target": "es6",
         "noImplicitAny": true,
         "removeComments": false,
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist",
+        "rootDir": "./src",
+        "outDir": "./dist",
         "baseUrl": ".",
         "paths": {
             "*": [
                 "node_modules/*"
             ]
         },
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "allowJs": true
     },
-    "include": [
-        "src/**/*"
-    ]
+    "include": ["src/**/*.ts", "tests/**/*.ts"],
+    "exclude": ["node_modules", ".vscode"],
+    "ts-node": {
+        "transpileOnly": true,
+        "files": true
+    }
 }

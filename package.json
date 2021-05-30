@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "npm run build",
-    "start": "nodemon dist/index.js",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
     "prebuild": "npm run lint:fix",
     "build": "tsc --project ./",
     "lint": "eslint . --ext .ts",
@@ -23,6 +24,8 @@
   },
   "homepage": "https://github.com/DemonDaddy22/Appunti-Server#readme",
   "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/node": "^15.6.0",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
@@ -38,5 +41,24 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1"
   },
-  "type": "module"
+  "type": "module",
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 14,
+            "browsers": [
+              "last 2 chrome versions",
+              "last 2 firefox versions",
+              "last 2 safari versions",
+              "last 2 edge versions"
+            ]
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  }
 }

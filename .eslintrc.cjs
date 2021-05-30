@@ -5,9 +5,7 @@ module.exports = {
         es2021: true,
     },
     parser: '@typescript-eslint/parser',
-    parserOptions: {
-        ecmaVersion: 12,
-    },
+    parserOptions: { ecmaVersion: 12, },
     plugins: ['@typescript-eslint'],
     extends: ['plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'],
     rules: {
@@ -26,9 +24,7 @@ module.exports = {
         'no-return-assign': ['error', 'except-parens'],
         'no-unused-expressions': [
             2,
-            {
-                allowTaggedTemplates: true,
-            },
+            { allowTaggedTemplates: true, },
         ],
         'no-shadow': 2,
         'quotes': [
@@ -41,8 +37,16 @@ module.exports = {
         ],
         'eqeqeq': 1,
         'array-bracket-spacing': 1,
+        'object-curly-spacing': [1, 'always'],
+        'object-curly-newline': [1, {
+            'ObjectExpression': {
+                'multiline': true, 'minProperties': 3, 'consistent': false 
+            }, 
+        }],
         'camelcase': 1,
         'indent': 2,
-        'max-len': [2, { code: 120, tabWidth: 4, ignoreTemplateLiterals: true }],
+        'max-len': [2, {
+            code: 120, tabWidth: 4, ignoreTemplateLiterals: true 
+        }],
     },
 };
