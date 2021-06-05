@@ -1,36 +1,41 @@
 {
-  "name": "appunti-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npm run lint:fix",
-    "start": "node --es-module-specifier-resolution=node src/index.js",
-    "dev": "nodemon --es-module-specifier-resolution=node ./src/index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DemonDaddy22/Appunti-Server.git"
-  },
-  "author": "Rohan Gupta",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DemonDaddy22/Appunti-Server/issues"
-  },
-  "homepage": "https://github.com/DemonDaddy22/Appunti-Server#readme",
-  "devDependencies": {
-    "eslint": "^7.27.0",
-    "eslint-plugin-import": "^2.23.3",
-    "nodemon": "^2.0.7"
-  },
-  "dependencies": {
-    "axios": "^0.21.1",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1"
-  },
-  "type": "module"
+    "name": "appunti-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prestart": "npm run lint:fix",
+        "start": "node --es-module-specifier-resolution=node src/index.js",
+        "dev": "nodemon --es-module-specifier-resolution=node src/index.js",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DemonDaddy22/Appunti-Server.git"
+    },
+    "author": "Rohan Gupta",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/DemonDaddy22/Appunti-Server/issues"
+    },
+    "homepage": "https://github.com/DemonDaddy22/Appunti-Server#readme",
+    "devDependencies": {
+        "eslint": "^7.27.0",
+        "eslint-plugin-import": "^2.23.3",
+        "nodemon": "^2.0.7",
+        "@babel/core": "^7.14.3",
+        "@babel/eslint-parser": "^7.14.4",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "prettier": "^2.3.0"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1"
+    },
+    "type": "module"
 }
