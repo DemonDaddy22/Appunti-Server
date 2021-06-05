@@ -1,14 +1,30 @@
 import dotenv from 'dotenv';
-import axios from 'axios';
-import { BOOKS_API_URI } from '../../constants';
-
 dotenv.config();
 
+import axios from 'axios';
+import {
+    BOOKS_API_URI,
+    DEFAULT_MAX_RESULTS,
+    DEFAULT_PAGE,
+} from '../../constants';
+import isEmptyString from '../../utils/isEmptyString';
+import BooksError from '../../errors/BooksError';
+
 // TODO - add isLoggedIn auth to prevent misuse of API
-// TODO - add edge case handling for q, maxResults and page
-// TODO - create and throw custom error
-export const bookSearch = async (req, res) => {
-    const { q, maxResults = 10, page = 0 } = req.query;
+export const bookSearch = async (req, res, next) => {
+    const q = req?.query?.q || '';
+    const maxResults = req?.query?.maxResults || DEFAULT_MAX_RESULTS;
+    const page = req?.query?.page || DEFAULT_PAGE;
+
+    if (
+        isEmptyString(q) ||
+        page < 0 ||
+        maxResults < 1 ||
+        maxResults > process.env.MAX_RESULTS_UPPER
+    ) {
+        const error = new BooksError(400, 'Bad request');
+        return next(error);
+    }
     const response = await axios.get(BOOKS_API_URI, {
         params: {
             q,
