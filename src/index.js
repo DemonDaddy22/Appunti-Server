@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import express from 'express';
+import cors from 'cors';
 import BookSearchRoutes from './routes/Books/BookSearch';
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.use('/api/v1/books', BookSearchRoutes);
 

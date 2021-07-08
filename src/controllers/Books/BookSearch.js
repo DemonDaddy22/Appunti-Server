@@ -5,7 +5,7 @@ import axios from 'axios';
 import {
     BOOKS_API_URI,
     DEFAULT_MAX_RESULTS,
-    DEFAULT_PAGE,
+    DEFAULT_START_INDEX,
 } from '../../constants';
 import isEmptyString from '../../utils/isEmptyString';
 import BooksError from '../../errors/BooksError';
@@ -14,11 +14,11 @@ import BooksError from '../../errors/BooksError';
 export const bookSearch = async (req, res, next) => {
     const q = req?.query?.q || '';
     const maxResults = req?.query?.maxResults || DEFAULT_MAX_RESULTS;
-    const page = req?.query?.page || DEFAULT_PAGE;
+    const startIndex = req?.query?.start || DEFAULT_START_INDEX;
 
     if (
         isEmptyString(q) ||
-        page < 0 ||
+        startIndex < 0 ||
         maxResults < 1 ||
         maxResults > process.env.MAX_RESULTS_UPPER
     ) {
@@ -29,9 +29,12 @@ export const bookSearch = async (req, res, next) => {
         params: {
             q,
             maxResults,
-            startIndex: page,
+            startIndex,
             key: process.env.BOOKS_API_KEY,
         },
     });
-    res.status(response.status).send(response.data);
+    res.status(response.status).send({
+        status: 200,
+        data: response.data,
+    });
 };
