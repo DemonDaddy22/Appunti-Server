@@ -13,16 +13,18 @@ app.use('/api/v1/books', BookSearchRoutes);
 
 app.listen(port, () => console.log(`> Serving on PORT: ${port}`));
 
-app.get('/appunti', (req, res) => { res.send('Hello from Appunti'); });
+app.get('/appunti', (req, res) => {
+    res.send('Hello from Appunti');
+});
 
 app.use((err, req, res, next) => {
-  let {status = 500, message = 'Internal Server Error', name} = err;
-  res.status(status).send({
-    status,
-    data : null,
-    error : {
-      name,
-      message,
-    },
-  });
+    let { status = 500, message = 'Internal Server Error', name } = err;
+    res.status(status).send({
+        status,
+        data: null,
+        error: {
+            name,
+            message,
+        },
+    });
 });
