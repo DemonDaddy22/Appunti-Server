@@ -36,5 +36,6 @@ export const bookSearch = async (req, res, next) => {
     res.status(response.status).send({
         status: 200,
         data: response.data,
+        error: null,
     });
 };

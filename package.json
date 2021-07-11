@@ -5,7 +5,6 @@
     "main": "src/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "prestart": "npm run lint:fix",
         "start": "node --es-module-specifier-resolution=node src/index.js",
         "dev": "nodemon --es-module-specifier-resolution=node src/index.js",
         "lint": "eslint .",
