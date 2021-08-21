@@ -27,14 +27,12 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Book search routes using Google Books API
 app.use('/api/v1/books', BookSearchRoutes);
 
 app.listen(port, () => console.log(`> Serving on PORT: ${port}`));
 
-app.get('/appunti', (req, res) => {
-    res.send('Hello from Appunti');
-});
-
+// Error middleware
 app.use((err, req, res, next) => {
     let { status = 500, message = 'Internal Server Error', name } = err;
     res.status(status).send({

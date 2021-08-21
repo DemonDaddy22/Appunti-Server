@@ -7,7 +7,7 @@ import {
     DEFAULT_MAX_RESULTS,
     DEFAULT_START_INDEX,
 } from '../../constants';
-import isEmptyString from '../../utils/isEmptyString';
+import isEmptyString from '../../utils';
 import BooksError from '../../errors/BooksError';
 
 // TODO - add isLoggedIn auth to prevent misuse of API
