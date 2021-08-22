@@ -19,9 +19,10 @@ export const addBook = async (req, res, next) => {
         categories = [],
         industryIdentifiers = [],
     } = req.body.book;
+    console.log(req.body.book);
 
     // check if book already exists based on gid
-    const book = await Book.find({ gid });
+    const book = await Book.findOne({ gid });
     if (book) {
         const error = new BooksError(400, 'Bad request: Book already exists');
         return next(error);
@@ -63,7 +64,7 @@ export const addBook = async (req, res, next) => {
 };
 
 export const findBookByID = async (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.query;
     const book = await Book.findById(id);
 
     // if book is not available, return error
@@ -81,8 +82,8 @@ export const findBookByID = async (req, res, next) => {
 };
 
 export const findBookByGID = async (req, res, next) => {
-    const { gid } = req.params;
-    const book = await Book.find({ gid });
+    const { gid } = req.query;
+    const book = await Book.findOne({ gid });
 
     // if book is not available, return error
     if (!book) {

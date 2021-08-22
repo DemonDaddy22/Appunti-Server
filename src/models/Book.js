@@ -54,7 +54,7 @@ const BookSchema = new Schema({
     industryIdentifiers: [
         {
             identifier: String,
-            type: String,
+            type: { type: String },
         },
     ],
 });

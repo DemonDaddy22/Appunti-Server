@@ -7,10 +7,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import BookSearchRoutes from './routes/Books/BookSearch';
+import BookRoutes from './routes/Books/Book';
+import { BOOKS_API_BASE_ENDPOINT } from './constants';
 
 const app = express();
 const port = process.env.PORT || 5000;
-const dbUrl = process.env.dbUrl || 'mongodb://localhost:27017/appunti';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/appunti';
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -28,7 +30,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Book search routes using Google Books API
-app.use('/api/v1/books', BookSearchRoutes);
+app.use(BOOKS_API_BASE_ENDPOINT, BookSearchRoutes);
+// Book routes
+app.use(`${BOOKS_API_BASE_ENDPOINT}/book`, BookRoutes);
 
 app.listen(port, () => console.log(`> Serving on PORT: ${port}`));
 
