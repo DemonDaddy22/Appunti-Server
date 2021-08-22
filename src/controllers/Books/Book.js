@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import BooksError from '../../errors/BooksError';
 import Book from '../../models/Book';
 
 // TODO - update no cover image and use as default value for imageLink
@@ -18,7 +19,7 @@ export const addBook = async (req, res, next) => {
         categories = [],
         industryIdentifiers = [],
     } = req.body.book;
-    
+
     // check if book already exists based on gid
     const book = await Book.find({ gid });
     if (book) {
@@ -62,9 +63,37 @@ export const addBook = async (req, res, next) => {
 };
 
 export const findBookByID = async (req, res, next) => {
-    // find book based on _id
+    const { id } = req.params;
+    const book = await Book.findById(id);
+
+    // if book is not available, return error
+    if (!book) {
+        const error = new BooksError(404, 'Book not found');
+        return next(error);
+    }
+
+    // return the found book
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { book },
+    });
 };
 
 export const findBookByGID = async (req, res, next) => {
-    // find book based on gid
+    const { gid } = req.params;
+    const book = await Book.find({ gid });
+
+    // if book is not available, return error
+    if (!book) {
+        const error = new BooksError(404, 'Book not found');
+        return next(error);
+    }
+
+    // return the found book
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { book },
+    });
 };

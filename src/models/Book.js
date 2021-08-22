@@ -36,9 +36,7 @@ const BookSchema = new Schema({
         type: Number,
         required: true,
     },
-    language: {
-        type: String,
-    },
+    language: { type: String },
     imageLink: {
         type: String,
         required: true,
@@ -57,8 +55,8 @@ const BookSchema = new Schema({
         {
             identifier: String,
             type: String,
-        }
-    ]
+        },
+    ],
 });
 
 const Book = mongoose.model('book', BookSchema);

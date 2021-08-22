@@ -24,12 +24,8 @@ const BookShelfSchema = new Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-    },
-    coverImageLink: {
-        type: String,
-    },
+    description: { type: String },
+    coverImageLink: { type: String },
 });
 
 const BookShelf = mongoose.model('bookshelf', BookShelfSchema);
