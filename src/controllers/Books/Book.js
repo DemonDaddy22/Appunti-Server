@@ -19,7 +19,6 @@ export const addBook = async (req, res, next) => {
         categories = [],
         industryIdentifiers = [],
     } = req.body.book;
-    console.log(req.body.book);
 
     // check if book already exists based on gid
     const book = await Book.findOne({ gid });

@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 
 import BookSearchRoutes from './routes/Books/BookSearch';
 import BookRoutes from './routes/Books/Book';
+import BookShelfRoutes from './routes/Books/BookShelf';
 import { BOOKS_API_BASE_ENDPOINT } from './constants';
 
 const app = express();
@@ -33,13 +34,15 @@ app.use(express.json());
 app.use(BOOKS_API_BASE_ENDPOINT, BookSearchRoutes);
 // Book routes
 app.use(`${BOOKS_API_BASE_ENDPOINT}/book`, BookRoutes);
+// Bookshelf routes
+app.use(`${BOOKS_API_BASE_ENDPOINT}/bookshelf`, BookShelfRoutes);
 
 app.listen(port, () => console.log(`> Serving on PORT: ${port}`));
 
 // Error middleware
 app.use((err, req, res, next) => {
     let { status = 500, message = 'Internal Server Error', name } = err;
-    res.status(status).send({
+    res.send({
         status,
         data: null,
         error: {
