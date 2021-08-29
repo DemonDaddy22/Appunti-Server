@@ -5,20 +5,14 @@ const Schema = mongoose.Schema;
 const BookShelfSchema = new Schema(
     {
         uid: String,
-        userId: {
-            type: String,
-            required: true,
-        },
+        userId: { type: String },
         books: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Book',
             },
         ],
-        title: {
-            type: String,
-            required: true,
-        },
+        title: { type: String },
         description: { type: String },
         coverImageLink: { type: String },
     },

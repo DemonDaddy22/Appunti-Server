@@ -31,11 +31,6 @@ export const addBookShelf = async (req, res, next) => {
             return !isEmptyObject(book) ? [...accu, book] : accu;
         }, [])) || [];
 
-    // const books = await bookIds?.reduce(async (accu, id) => {
-    //     const book = await Book.findById(id);
-    //     return !isEmptyObject(book) ? [...accu, id] : accu;
-    // }, []);
-
     const bookshelf = new BookShelf({
         uid,
         userId,
@@ -54,7 +49,9 @@ export const addBookShelf = async (req, res, next) => {
 };
 
 // updates bookshelf of specified id and add/delete book(s)
-export const updateBookShelf = async (req, res, next) => {};
+export const updateBookShelf = async (req, res, next) => {
+    // get bookshelf id and list of book ids
+};
 
 // deletes bookshelf of specified id
 export const deleteBookShelf = async (req, res, next) => {};

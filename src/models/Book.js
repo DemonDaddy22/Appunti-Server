@@ -4,43 +4,16 @@ const Schema = mongoose.Schema;
 
 const BookSchema = new Schema({
     uid: String,
-    gid: {
-        type: String,
-        required: true,
-    },
-    title: {
-        type: String,
-        required: true,
-    },
-    subtitle: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    publishedDate: {
-        type: String,
-        required: true,
-    },
-    pageCount: {
-        type: Number,
-        required: true,
-    },
-    rating: {
-        type: Number,
-        required: true,
-    },
-    ratingsCount: {
-        type: Number,
-        required: true,
-    },
+    gid: { type: String },
+    title: { type: String },
+    subtitle: { type: String },
+    description: { type: String },
+    publishedDate: { type: String },
+    pageCount: { type: Number },
+    rating: { type: Number },
+    ratingsCount: { type: Number },
     language: { type: String },
-    imageLink: {
-        type: String,
-        required: true,
-    },
+    imageLink: { type: String },
     epub: {
         isAvailable: Boolean,
         acsTokenLink: String,
