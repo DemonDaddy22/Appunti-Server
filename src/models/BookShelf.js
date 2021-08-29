@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const BookShelfSchema = new Schema(
     {
-        _id: String,
+        uid: String,
         userId: {
             type: String,
             required: true,
@@ -25,6 +25,6 @@ const BookShelfSchema = new Schema(
     { timestamps: true }
 );
 
-const BookShelf = mongoose.model('bookshelf', BookShelfSchema);
+const BookShelf = mongoose.model('Bookshelf', BookShelfSchema);
 
 export default BookShelf;

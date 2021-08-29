@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import BooksError from '../../errors/BooksError';
+import Book from '../../models/Book';
 import BookShelf from '../../models/BookShelf';
-import { isEmptyList } from '../../utils';
+import { isEmptyList, isEmptyObject } from '../../utils';
 
 // creates a new bookshelf for logged in user
 // TODO - set limit on number of bookshelves per user
@@ -13,32 +14,42 @@ export const addBookShelf = async (req, res, next) => {
         coverImageLink = '',
     } = req.body;
 
-    // check if a bookshelf already exists with same title
-    const bookshelves = await BookShelf.find({ title }).exec();
-    console.log(bookIds);
+    // check if bookshelves already exist with same title
+    // eslint-disable-next-line prettier/prettier
+    const bookshelves = await BookShelf.find({ title: { $regex: new RegExp(`^${title}$`), $options: 'i' } }).exec();
     if (!isEmptyList(bookshelves)) {
         const error = new BooksError(400, `${title} is already used`);
         return next(error);
     }
 
-    const _id = uuidv4();
+    const uid = uuidv4();
     const userId = uuidv4();
 
-    // TODO - loop over bookIds (gids) and check if they exist in Book table, fetch them, else create a new entry
+    const books =
+        (await bookIds?.reduce(async (accu, id) => {
+            const book = await Book.findById(id);
+            return !isEmptyObject(book) ? [...accu, book] : accu;
+        }, [])) || [];
+
+    // const books = await bookIds?.reduce(async (accu, id) => {
+    //     const book = await Book.findById(id);
+    //     return !isEmptyObject(book) ? [...accu, id] : accu;
+    // }, []);
 
     const bookshelf = new BookShelf({
-        _id,
+        uid,
         userId,
         title,
         description,
         coverImageLink,
+        books,
     });
 
-    const response = await bookshelf.save();
+    let newBookshelf = await bookshelf.save();
     res.status(200).send({
         status: 200,
         error: null,
-        data: { bookshelf: response },
+        data: { bookshelf: newBookshelf },
     });
 };
 
@@ -49,4 +60,11 @@ export const updateBookShelf = async (req, res, next) => {};
 export const deleteBookShelf = async (req, res, next) => {};
 
 // get the list of all the bookshelves of logged in user
-export const getAllBookShelves = async (req, res, next) => {};
+export const getAllBookShelves = async (req, res, next) => {
+    const bookshelves = await BookShelf.find({}).populate('books');
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { bookshelves },
+    });
+};

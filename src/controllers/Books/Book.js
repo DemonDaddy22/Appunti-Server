@@ -28,9 +28,9 @@ export const addBook = async (req, res, next) => {
     }
 
     // if doesn't exist create a new book entry
-    const _id = uuidv4();
+    const uid = uuidv4();
     const newBook = new Book({
-        _id,
+        uid,
         gid,
         title,
         subtitle,
@@ -64,7 +64,7 @@ export const addBook = async (req, res, next) => {
 
 export const findBookByID = async (req, res, next) => {
     const { id } = req.query;
-    const book = await Book.findById(id);
+    const book = await Book.findOne({ uid: id });
 
     // if book is not available, return error
     if (!book) {

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const BookSchema = new Schema({
-    _id: String,
+    uid: String,
     gid: {
         type: String,
         required: true,
@@ -59,6 +59,6 @@ const BookSchema = new Schema({
     ],
 });
 
-const Book = mongoose.model('book', BookSchema);
+const Book = mongoose.model('Book', BookSchema);
 
 export default Book;
