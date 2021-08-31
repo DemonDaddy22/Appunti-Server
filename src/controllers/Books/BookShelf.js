@@ -50,7 +50,45 @@ export const addBookShelf = async (req, res, next) => {
 
 // updates bookshelf of specified id and add/delete book(s)
 export const updateBookShelf = async (req, res, next) => {
-    // get bookshelf id and list of book ids
+    const { uid } = req.query;
+    const { title, description, coverImageLink, books } = req.body;
+
+    const bookshelf = await BookShelf.findOne({ uid });
+    if (isEmptyObject(bookshelf)) {
+        const error = new BooksError(404, 'Bookshelf not found');
+        return next(error);
+    }
+
+    if (typeof title === 'string' && !title?.length) {
+        const error = new BooksError(400, 'Title cannot be empty');
+        return next(error);
+    }
+
+    // it would be better to directly add/delete the book to/from bookshelf on front end and send the updated list
+    console.log(books);
+    const newBooks = books?.filter((book) => {
+        return bookshelf?.books?.every((id) => id?.toString() !== book?._id);
+    });
+
+    const updatedBookshelf = await BookShelf.findOneAndUpdate(
+        uid,
+        {
+            title: title || bookshelf.title,
+            description: description || bookshelf.description,
+            coverImageLink: coverImageLink || bookshelf.coverImageLink,
+            books: [...bookshelf.books, ...newBooks],
+        },
+        {
+            new: true,
+            runValidators: true,
+        }
+    );
+
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { bookshelf: updatedBookshelf },
+    });
 };
 
 // deletes bookshelf of specified id

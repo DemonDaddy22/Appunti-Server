@@ -8,4 +8,6 @@ router.post('/add', asyncErrorHandler(BookShelfController.addBookShelf));
 
 router.get('/getAll', asyncErrorHandler(BookShelfController.getAllBookShelves));
 
+router.patch('/update', asyncErrorHandler(BookShelfController.updateBookShelf));
+
 export default router;
