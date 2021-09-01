@@ -64,14 +64,20 @@ export const updateBookShelf = async (req, res, next) => {
         return next(error);
     }
 
-    // it would be better to directly add/delete the book to/from bookshelf on front end and send the updated list
-    console.log(books);
     const newBooks = books?.filter((book) => {
         return bookshelf?.books?.every((id) => id?.toString() !== book?._id);
     });
 
-    const updatedBookshelf = await BookShelf.findOneAndUpdate(
-        uid,
+    if (books?.length && !newBooks?.length) {
+        const error = new BooksError(
+            400,
+            'Book(s) already present in bookshelf'
+        );
+        return next(error);
+    }
+
+    const updatedBookshelf = await BookShelf.findByIdAndUpdate(
+        bookshelf._id,
         {
             title: title || bookshelf.title,
             description: description || bookshelf.description,
