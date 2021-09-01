@@ -11,4 +11,9 @@ router.get('/getAll', asyncErrorHandler(BookShelfController.getAllBookShelves));
 
 router.patch('/update', asyncErrorHandler(BookShelfController.updateBookShelf));
 
+router.delete(
+    '/remove',
+    asyncErrorHandler(BookShelfController.deleteBookShelf)
+);
+
 export default router;

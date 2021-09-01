@@ -3,6 +3,7 @@ import BooksError from '../../errors/BooksError';
 import Book from '../../models/Book';
 import BookShelf from '../../models/BookShelf';
 import { isEmptyList, isEmptyObject } from '../../utils';
+import isValidUUIDv4 from '../../utils/validateUUID';
 
 // creates a new bookshelf for logged in user
 // TODO - set limit on number of bookshelves per user
@@ -55,6 +56,11 @@ export const updateBookShelf = async (req, res, next) => {
     const { uid } = req.query;
     const { title, description, coverImageLink, books } = req.body;
 
+    if (!isValidUUIDv4(uid)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
     const bookshelf = await BookShelf.findOne({ uid });
     if (isEmptyObject(bookshelf)) {
         const error = new BooksError(404, 'Bookshelf not found');
@@ -100,7 +106,20 @@ export const updateBookShelf = async (req, res, next) => {
 };
 
 // deletes bookshelf of specified id
-export const deleteBookShelf = async (req, res, next) => {};
+export const deleteBookShelf = async (req, res, next) => {
+    const { uid } = req.query;
+    if (!isValidUUIDv4(uid)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
+    const deletedBookshelf = await BookShelf.findOneAndDelete({ uid });
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { bookshelf: deletedBookshelf },
+    });
+};
 
 // get the list of all the bookshelves of logged in user
 export const getAllBookShelves = async (req, res, next) => {
