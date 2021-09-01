@@ -16,7 +16,9 @@ export const addBookShelf = async (req, res, next) => {
 
     // check if bookshelves already exist with same title
     // eslint-disable-next-line prettier/prettier
-    const bookshelves = await BookShelf.find({ title: { $regex: new RegExp(`^${title}$`), $options: 'i' } }).exec();
+    const bookshelves = await BookShelf.find({
+        title: { $regex: new RegExp(`^${title}$`), $options: 'i' },
+    }).exec();
     if (!isEmptyList(bookshelves)) {
         const error = new BooksError(400, `${title} is already used`);
         return next(error);
