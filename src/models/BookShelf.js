@@ -2,20 +2,22 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const BookShelfSchema = new Schema({
-  uid : String,
-  userId : {type : String},
-  books : [
+const BookShelfSchema = new Schema(
     {
-      type : Schema.Types.ObjectId,
-      ref : 'Book',
+        uid: String,
+        userId: { type: String },
+        books: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
+            },
+        ],
+        title: { type: String },
+        description: { type: String },
+        coverImageLink: { type: String },
     },
-  ],
-  title : {type : String},
-  description : {type : String},
-  coverImageLink : {type : String},
-},
-                                   {timestamps : true});
+    { timestamps: true }
+);
 
 const BookShelf = mongoose.model('Bookshelf', BookShelfSchema);
 

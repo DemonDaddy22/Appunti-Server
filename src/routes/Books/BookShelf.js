@@ -3,7 +3,7 @@ import express from 'express';
 import * as BookShelfController from '../../controllers/Books/BookShelf';
 import asyncErrorHandler from '../../utils/asyncErrorHandler';
 
-const router = express.Router({mergeParams : true});
+const router = express.Router({ mergeParams: true });
 
 router.post('/add', asyncErrorHandler(BookShelfController.addBookShelf));
 
