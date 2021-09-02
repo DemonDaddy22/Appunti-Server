@@ -31,8 +31,6 @@ export const isEmptyList = (obj) =>
  * @returns `boolean` indicating whether `obj` is an empty object
  *
  */
-export const isEmptyObject = (obj) =>
-    !obj ||
-    typeof obj !== 'object' ||
-    Array.isArray(obj) ||
-    Object.keys(obj).length === 0;
+export const isEmptyObject = (obj) => !obj || typeof obj !== 'object' ||
+                                      Array.isArray(obj) ||
+                                      Object.keys(obj).length === 0;

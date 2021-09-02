@@ -1,4 +1,4 @@
-import { validate as uuidValidate, version as uuidVersion } from 'uuid';
+import {validate as uuidValidate, version as uuidVersion} from 'uuid';
 
 /**
  * @param {string} uuid
