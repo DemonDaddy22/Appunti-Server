@@ -7,6 +7,7 @@ import isValidUUIDv4 from '../../utils/validateUUID';
 
 // creates a new bookshelf for logged in user
 // TODO - set limit on number of bookshelves per user
+// TODO - set limit on number of books per bookshelf per user
 export const addBookShelf = async (req, res, next) => {
     const {
         bookIds = [],
@@ -16,7 +17,6 @@ export const addBookShelf = async (req, res, next) => {
     } = req.body;
 
     // check if bookshelves already exist with same title
-    // eslint-disable-next-line prettier/prettier
     const bookshelves = await BookShelf.find({
         title: { $regex: new RegExp(`^${title}$`), $options: 'i' },
     }).exec();
@@ -26,8 +26,9 @@ export const addBookShelf = async (req, res, next) => {
     }
 
     const uid = uuidv4();
-    const userId = uuidv4();
+    const userId = uuidv4(); // will be read from auth info of logged in user
 
+    // get books from Books collection
     const books =
         (await bookIds?.reduce(async (accu, id) => {
             const book = await Book.findById(id);
@@ -51,7 +52,7 @@ export const addBookShelf = async (req, res, next) => {
     });
 };
 
-// updates bookshelf of specified id and add/delete book(s)
+// updates bookshelf of specified uid and add/delete book(s)
 export const updateBookShelf = async (req, res, next) => {
     const { uid } = req.query;
     const { title, description, coverImageLink, books } = req.body;
@@ -72,10 +73,12 @@ export const updateBookShelf = async (req, res, next) => {
         return next(error);
     }
 
+    // filter out the books which are not already present in the bookshelf
     const newBooks = books?.filter((book) => {
         return bookshelf?.books?.every((id) => id?.toString() !== book?._id);
     });
 
+    // if no new book is present, no need to make an update call to the database
     if (books?.length && !newBooks?.length) {
         const error = new BooksError(
             400,
@@ -105,7 +108,7 @@ export const updateBookShelf = async (req, res, next) => {
     });
 };
 
-// deletes bookshelf of specified id
+// deletes bookshelf of specified uid
 export const deleteBookShelf = async (req, res, next) => {
     const { uid } = req.query;
     if (!isValidUUIDv4(uid)) {
