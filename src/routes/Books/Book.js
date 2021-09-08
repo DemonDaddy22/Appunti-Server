@@ -9,6 +9,6 @@ router.post('/add', asyncErrorHandler(BookController.addBook));
 
 router.get('/find', asyncErrorHandler(BookController.findBookByID));
 
-router.get('/find/gid', asyncErrorHandler(BookController.findBookByGID));
+router.get('/find/g', asyncErrorHandler(BookController.findBookByGID));
 
 export default router;

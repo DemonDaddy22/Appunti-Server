@@ -5,6 +5,8 @@ import asyncErrorHandler from '../../utils/asyncErrorHandler';
 
 const router = express.Router({ mergeParams: true });
 
+router.get('/get/u', asyncErrorHandler(BookShelfController.getBookShelfByUID));
+
 router.post('/add', asyncErrorHandler(BookShelfController.addBookShelf));
 
 router.get('/getAll', asyncErrorHandler(BookShelfController.getAllBookShelves));

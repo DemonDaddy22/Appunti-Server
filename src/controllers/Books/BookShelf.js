@@ -5,6 +5,28 @@ import BookShelf from '../../models/BookShelf';
 import { isEmptyList, isEmptyObject } from '../../utils';
 import isValidUUIDv4 from '../../utils/validateUUID';
 
+// TODO - rename routes containing id, gid, uid to i, g, u
+export const getBookShelfByUID = async (req, res, next) => {
+    const { uid } = req.query;
+
+    if (!isValidUUIDv4(uid)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
+    const bookshelf = await BookShelf.findOne({ uid });
+    if (isEmptyObject(bookshelf)) {
+        const error = new BooksError(404, 'Bookshelf not found');
+        return next(error);
+    }
+
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { bookshelf },
+    });
+};
+
 // creates a new bookshelf for logged in user
 // TODO - set limit on number of bookshelves per user
 // TODO - set limit on number of books per bookshelf per user
