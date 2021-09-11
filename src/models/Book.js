@@ -30,6 +30,10 @@ const BookSchema = new Schema({
             type: { type: String },
         },
     ],
+    bookshelf: {
+        type: Schema.Types.ObjectId,
+        ref: 'BookShelf',
+    },
 });
 
 const Book = mongoose.model('Book', BookSchema);

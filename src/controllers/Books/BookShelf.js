@@ -14,7 +14,7 @@ export const getBookShelfByUID = async (req, res, next) => {
         return next(error);
     }
 
-    const bookshelf = await BookShelf.findOne({ uid });
+    const bookshelf = await BookShelf.findOne({ uid }).populate('books');
     if (isEmptyObject(bookshelf)) {
         const error = new BooksError(404, 'Bookshelf not found');
         return next(error);
