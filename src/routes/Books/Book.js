@@ -11,4 +11,6 @@ router.get('/find', asyncErrorHandler(BookController.findBookByID));
 
 router.get('/find/g', asyncErrorHandler(BookController.findBookByGID));
 
+router.get('/find/user', asyncErrorHandler(BookController.findBookByUserID));
+
 export default router;

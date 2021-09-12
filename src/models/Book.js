@@ -10,7 +10,7 @@ const BookSchema = new Schema({
     description: { type: String },
     publishedDate: { type: String },
     pageCount: { type: Number },
-    rating: { type: Number },
+    rating: { type: Number }, // this will store sum of all user ratings
     ratingsCount: { type: Number },
     language: { type: String },
     imageLink: { type: String },
@@ -30,6 +30,7 @@ const BookSchema = new Schema({
             type: { type: String },
         },
     ],
+    userId: { type: String },
     bookshelf: {
         type: Schema.Types.ObjectId,
         ref: 'BookShelf',

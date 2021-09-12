@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import BooksError from '../../errors/BooksError';
 import Book from '../../models/Book';
+import BookShelf from '../../models/BookShelf';
+import { isEmptyObject } from '../../utils';
 
-// TODO - update no cover image and use as default value for imageLink
 export const addBook = async (req, res, next) => {
     const {
         gid,
@@ -18,12 +19,22 @@ export const addBook = async (req, res, next) => {
         authors = [],
         categories = [],
         industryIdentifiers = [],
+        userId = '', // read it from auth info in the future
+        bookshelf = '',
     } = req.body.book;
 
     // check if book already exists based on gid
-    const book = await Book.findOne({ gid });
+    // TODO - replace this with userId, as same book can be there for multiple users
+    // TODO - book must be present only once per user
+    const book = await Book.findOne({ userId });
     if (book) {
         const error = new BooksError(400, 'Bad request: Book already exists');
+        return next(error);
+    }
+
+    const foundBookshelf = await BookShelf.findOne({ uid: bookshelf });
+    if (isEmptyObject(foundBookshelf)) {
+        const error = new BooksError(404, 'No bookshelf found for provided ID');
         return next(error);
     }
 
@@ -52,6 +63,8 @@ export const addBook = async (req, res, next) => {
         authors,
         categories,
         industryIdentifiers,
+        userId,
+        bookshelf: foundBookshelf,
     });
 
     const response = await newBook.save();
@@ -64,7 +77,7 @@ export const addBook = async (req, res, next) => {
 
 export const findBookByID = async (req, res, next) => {
     const { id } = req.query;
-    const book = await Book.findOne({ uid: id });
+    const book = await Book.findOne({ uid: id }).populate('bookshelf');
 
     // if book is not available, return error
     if (!book) {
@@ -82,7 +95,25 @@ export const findBookByID = async (req, res, next) => {
 
 export const findBookByGID = async (req, res, next) => {
     const { gid } = req.query;
-    const book = await Book.findOne({ gid });
+    const book = await Book.findOne({ gid }).populate('bookshelf');
+
+    // if book is not available, return error
+    if (!book) {
+        const error = new BooksError(404, 'Book not found');
+        return next(error);
+    }
+
+    // return the found book
+    res.status(200).send({
+        status: 200,
+        error: null,
+        data: { book },
+    });
+};
+
+export const findBookByUserID = async (req, res, next) => {
+    const { userId } = req.query;
+    const book = await Book.findOne({ userId }).populate('bookshelf');
 
     // if book is not available, return error
     if (!book) {
