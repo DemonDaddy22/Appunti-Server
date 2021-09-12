@@ -2,7 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import BooksError from '../../errors/BooksError';
 import Book from '../../models/Book';
 import BookShelf from '../../models/BookShelf';
-import { isEmptyObject } from '../../utils';
+import { isEmptyObject, isEmptyString } from '../../utils';
+import isValidUUIDv4 from '../../utils/validateUUID';
 
 export const addBook = async (req, res, next) => {
     const {
@@ -23,7 +24,15 @@ export const addBook = async (req, res, next) => {
         bookshelf = '',
     } = req.body.book;
 
-    // check if book already exists based on gid
+    if (isEmptyString(userId) || isEmptyString(bookshelf)) {
+        const error = new BooksError(
+            400,
+            'Bad request: Some parameters are invalid'
+        );
+        return next(error);
+    }
+
+    // check if book already exists based on userId
     // TODO - replace this with userId, as same book can be there for multiple users
     // TODO - book must be present only once per user
     const book = await Book.findOne({ userId });
@@ -77,6 +86,11 @@ export const addBook = async (req, res, next) => {
 
 export const findBookByID = async (req, res, next) => {
     const { id } = req.query;
+    if (!isValidUUIDv4(id)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
     const book = await Book.findOne({ uid: id }).populate('bookshelf');
 
     // if book is not available, return error
@@ -95,6 +109,11 @@ export const findBookByID = async (req, res, next) => {
 
 export const findBookByGID = async (req, res, next) => {
     const { gid } = req.query;
+    if (isEmptyString(gid)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
     const book = await Book.findOne({ gid }).populate('bookshelf');
 
     // if book is not available, return error
@@ -113,6 +132,11 @@ export const findBookByGID = async (req, res, next) => {
 
 export const findBookByUserID = async (req, res, next) => {
     const { userId } = req.query;
+    if (isEmptyString(userId)) {
+        const error = new BooksError(400, 'Invalid ID');
+        return next(error);
+    }
+
     const book = await Book.findOne({ userId }).populate('bookshelf');
 
     // if book is not available, return error
