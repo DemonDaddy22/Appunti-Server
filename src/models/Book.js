@@ -33,7 +33,7 @@ const BookSchema = new Schema({
     userId: { type: String },
     bookshelf: {
         type: Schema.Types.ObjectId,
-        ref: 'BookShelf',
+        ref: 'Bookshelf',
     },
 });
 

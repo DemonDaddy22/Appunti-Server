@@ -32,10 +32,9 @@ export const addBook = async (req, res, next) => {
         return next(error);
     }
 
-    // check if book already exists based on userId
-    // TODO - replace this with userId, as same book can be there for multiple users
+    // check if book already exists based on userId and gid
     // TODO - book must be present only once per user
-    const book = await Book.findOne({ userId });
+    const book = await Book.findOne({ userId, gid });
     if (book) {
         const error = new BooksError(400, 'Bad request: Book already exists');
         return next(error);
@@ -77,10 +76,11 @@ export const addBook = async (req, res, next) => {
     });
 
     const response = await newBook.save();
+    const populatedResponse = await response.populate('bookshelf');
     res.status(200).send({
         status: 200,
         error: null,
-        data: { book: response },
+        data: { book: populatedResponse },
     });
 };
 
@@ -130,14 +130,14 @@ export const findBookByGID = async (req, res, next) => {
     });
 };
 
-export const findBookByUserID = async (req, res, next) => {
-    const { userId } = req.query;
-    if (isEmptyString(userId)) {
+export const findBookForUser = async (req, res, next) => {
+    const { userId, uid } = req.query;
+    if (isEmptyString(userId) || isEmptyString(uid)) {
         const error = new BooksError(400, 'Invalid ID');
         return next(error);
     }
 
-    const book = await Book.findOne({ userId }).populate('bookshelf');
+    const book = await Book.findOne({ userId, uid }).populate('bookshelf');
 
     // if book is not available, return error
     if (!book) {

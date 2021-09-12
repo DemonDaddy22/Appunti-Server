@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const BookShelfSchema = new Schema(
+const BookshelfSchema = new Schema(
     {
         uid: String,
         userId: { type: String },
@@ -19,6 +19,6 @@ const BookShelfSchema = new Schema(
     { timestamps: true }
 );
 
-const BookShelf = mongoose.model('Bookshelf', BookShelfSchema);
+const Bookshelf = mongoose.model('Bookshelf', BookshelfSchema);
 
-export default BookShelf;
+export default Bookshelf;

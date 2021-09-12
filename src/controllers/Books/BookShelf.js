@@ -5,7 +5,7 @@ import BookShelf from '../../models/BookShelf';
 import { isEmptyList, isEmptyObject } from '../../utils';
 import isValidUUIDv4 from '../../utils/validateUUID';
 
-// TODO - rename routes containing id, gid, uid to i, g, u
+// TODO - SEED THE DB
 export const getBookShelfByUID = async (req, res, next) => {
     const { uid } = req.query;
 
